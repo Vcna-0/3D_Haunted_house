@@ -1,4 +1,5 @@
 import restart from 'vite-plugin-restart'
+import { defineConfig } from 'vite';
 
 export default {
     root: 'src/', // Sources files (typically where index.html is)
@@ -18,4 +19,11 @@ export default {
     [
         restart({ restart: [ '../static/**', ] }) // Restart server on static file change
     ],
+
 }
+
+
+
+
+export default defineConfig({
+  base: '/3D_Haunted_house/', 
