@@ -11,7 +11,8 @@ export default defineConfig({
     build: {
         outDir: '../dist', // Output in the dist/ folder
         emptyOutDir: true, // Empty the folder first
-        sourcemap: true // Add sourcemap
+        sourcemap: true, // Add sourcemap
+        chunkSizeWarningLimit: 1000, // Augmente la limite de taille des chunks
     },
     plugins: [
         restart({ restart: ['../static/**'] }) // Restart server on static file change

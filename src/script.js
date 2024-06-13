@@ -22,7 +22,7 @@ const scene = new THREE.Scene()
 const textureLoader = new THREE.TextureLoader()
 
 // Floor
-const floorAlphaTexture = textureLoader.load('/floor/alpha.webp')
+const floorAlphaTexture = textureLoader.load('./floor/alpha.webp')
 const floorColorTexture = textureLoader.load('./floor/coast_sand_rocks_02_1k/coast_sand_rocks_02_diff_1k.webp')
 const floorARMTexture = textureLoader.load('./floor/coast_sand_rocks_02_1k/coast_sand_rocks_02_arm_1k.webp')
 const floorNormalTexture = textureLoader.load('./floor/coast_sand_rocks_02_1k/coast_sand_rocks_02_nor_gl_1k.webp')
