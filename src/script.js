@@ -136,6 +136,7 @@ scene.add(floor)
 gui.add(floor.material, 'displacementScale').min(0).max(1).step(0.001).name('displacementScale')
 gui.add(floor.material, 'displacementBias').min(-1).max(1).step(0.001).name('displacementBias')
 
+
 // House container
 const house = new THREE.Group()
 scene.add(house)
@@ -385,6 +386,62 @@ sky.material.uniforms['sunPosition'].value.set(0.3, -0.038, -0.95)
  * Fog
  */
 scene.fog = new THREE.FogExp2('#04343f', 0.1)
+
+/**
+ * Audio
+ */
+const soundControls = {
+            volumeAmbient: 0.20,
+            mute: false
+        };
+
+gui.add(soundControls, 'volumeAmbient', 0, 1).onChange(function(value) {
+    darkAmbientSound.setVolume(value);
+});
+
+ gui.add(soundControls, 'mute').onChange(function(value) {
+            if (value) {
+                darkAmbientSound.stop()
+            } else {
+                darkAmbientSound.play()
+            }
+        });
+
+const audioListener  = new THREE.AudioListener()
+camera.add(audioListener )
+
+const darkAmbientSound = new THREE.Audio( audioListener );
+scene.add( darkAmbientSound );
+
+const ambientAudioLoader = new THREE.AudioLoader();
+        ambientAudioLoader.load('./audio/mystical-dark-atmosphere-174806.mp3', function(buffer) {
+            darkAmbientSound.setBuffer(buffer);
+            darkAmbientSound.setLoop(true);
+            darkAmbientSound.setVolume(0.20); 
+            darkAmbientSound.play();
+        });
+
+function addRandomizedGhostSound(ghost, audioListener, audioPath, minDelay, maxDelay) {
+    const ghostSound = new THREE.PositionalAudio(audioListener);
+    const audioLoader = new THREE.AudioLoader();
+    audioLoader.load(audioPath, function(buffer) {
+        ghostSound.setBuffer(buffer);
+        ghostSound.setLoop(true);
+        ghostSound.setRefDistance(1);
+        ghostSound.setVolume(0.15);
+
+        // Délai aléatoire avant de jouer le son
+        const delay = Math.random() * (maxDelay - minDelay) + minDelay;
+        setTimeout(() => {
+            ghostSound.play();
+        }, delay);
+    });
+    ghost.add(ghostSound);;
+}
+
+addRandomizedGhostSound(ghost1, audioListener, './audio/creepy-ghost-sound-7-vol-001-158371.mp3', 0, 1000);
+addRandomizedGhostSound(ghost2, audioListener, './audio/creepy-ghost-sound-7-vol-001-158371.mp3', 2000, 5000);
+addRandomizedGhostSound(ghost3, audioListener, './audio/creepy-ghost-sound-7-vol-001-158371.mp3', 5000, 9000);
 
 /**
  * Animate
